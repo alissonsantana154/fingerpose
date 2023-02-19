@@ -22,6 +22,11 @@ const gestureStrings = {
   'dont': '🙅‍♂️'
 }
 
+const base = ['Horizontal ', 'Diagonal Up ']
+const dont = {
+  left: [...base].map(i => i.concat(`Right`)),
+  left: [...base].map(i => i.concat(`Left`))
+}
 async function createDetector() {
   return window.handPoseDetection.createDetector(
     window.handPoseDetection.SupportedModels.MediaPipeHands,
@@ -55,7 +60,21 @@ async function main() {
   // load handpose model
   const detector = await createDetector()
   console.log("mediaPose model loaded")
+  const pair = new Set()
 
+  function checkGestureCombination(chosenHand, poseData) {
+    const addToPairIfCorrect = (chosenHand) => {
+      const containsHand = poseData.some(finger => dont[chosenHand].includes(finger[2]))
+      if(!containsHand) return;
+      pair.add(chosenHand)
+    }
+
+    addToPairIfCorrect(chosenHand)
+    if(pair.size !== 2) return;
+    resultLayer.left.innerText = resultLayer.right.innerText = gestureStrings.dont
+    pair.clear()
+  }
+  
   // main estimation loop
   const estimateHands = async () => {
 
@@ -83,9 +102,17 @@ async function main() {
       }
       if (predictions.gestures.length > 0) {
 
+        const result = predictions.gestures.reduce((p,c) => (p.score > c.score) ? p : c)
+        const found = gestureStrings[result.name]
         // find gesture with highest match score
         const chosenHand = hand.handedness.toLowerCase()
         updateDebugInfo(predictions.poseData, chosenHand)
+
+        if (found !== gestureStrings.dont) {
+          resultLayer[chosenHand].innerText = found 
+          continue
+        }
+        checkGestureCombination(chosenHand, predictions.poseData)
       }
 
     }

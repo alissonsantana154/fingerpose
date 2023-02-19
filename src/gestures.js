@@ -50,6 +50,10 @@ scissorsGesture.addCurl(Finger.Pinky, FingerCurl.HalfCurl, 0.9);
 //------------------------------------------------------------------------------
 
 for(const finger of Finger.all) {
+  dontGesture.addCurl(finger, FingerCurl.NoCurl, 1.0)
+  dontGesture.addCurl(finger, FingerCurl.HalfCurl, 1.0)
+
+
   dontGesture.addDirection(finger, FingerDirection.DiagonalUpRight, 1.0)
   dontGesture.addDirection(finger, FingerDirection.DiagonalUpLeft, 1.0)
   
