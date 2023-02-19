@@ -3,7 +3,7 @@ const { GestureDescription, Finger, FingerCurl, FingerDirection } = window.fp;
 const rockGesture = new GestureDescription('rock'); // ✊️
 const paperGesture = new GestureDescription('paper'); // 🖐
 const scissorsGesture = new GestureDescription('scissors'); // ✌️
-const dontGesture = new GestureDescription('dont'); // 🙅‍♂️
+const dontGesture = new GestureDescription('dont'); // 🙅
 
 
   
@@ -46,7 +46,7 @@ scissorsGesture.addCurl(Finger.Ring, FingerCurl.HalfCurl, 0.9);
 scissorsGesture.addCurl(Finger.Pinky, FingerCurl.FullCurl, 1.0);
 scissorsGesture.addCurl(Finger.Pinky, FingerCurl.HalfCurl, 0.9);
 
-// Dont 🙅‍♂️
+// Dont 🙅
 //------------------------------------------------------------------------------
 
 for(const finger of Finger.all) {
