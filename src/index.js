@@ -84,11 +84,7 @@ async function main() {
       if (predictions.gestures.length > 0) {
 
         // find gesture with highest match score
-        let result = predictions.gestures.reduce((p, c) => {
-          return (p.score > c.score) ? p : c
-        })
         const chosenHand = hand.handedness.toLowerCase()
-        resultLayer[chosenHand].innerText = gestureStrings[result.name]
         updateDebugInfo(predictions.poseData, chosenHand)
       }
 
